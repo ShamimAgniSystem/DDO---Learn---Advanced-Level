@@ -19,8 +19,11 @@ namespace DOD.Final.FinalSubmission
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 float amountOfUse = 10f;
-                bool success = PlayerManadata.TryUseMana(amountOfUse); // Logics are described into the Logic sections 
-                Debug.Log($"Player used mana  {amountOfUse} ");
+                bool success = PlayerManadata.TryUseMana(amountOfUse); // Logics are described into the Logic sections
+                if (success)
+                {
+                    Debug.Log($"Player used mana  {amountOfUse} ");   
+                }
             }
              PlayerManadata.TickUpdate(Time.time);
         }
