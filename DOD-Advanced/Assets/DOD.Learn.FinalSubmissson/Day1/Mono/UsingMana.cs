@@ -9,6 +9,8 @@ namespace DOD.Final.FinalSubmission
 
         private void OnEnable()
         {
+            PlayerManadata = GetComponent<ManaData>();
+            
             PlayerManadata.CurrentValue = 100;
             PlayerManadata.MaxMana = 100;
             PlayerManadata.RegenRate = 5f;

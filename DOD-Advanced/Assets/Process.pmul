@@ -1,0 +1,61 @@
+@startuml
+hide empty description
+
+' Initial states
+state CREATED
+state INACTIVE
+state PENDING
+
+' Active states
+state RUNNING
+state BLOCKED
+
+' Terminal states
+state COMPLETED
+state FAULTED
+state CANCELLED
+
+
+' === Happy Path (green) ===
+[*] -down-> CREATED
+CREATED -[#green]-> INACTIVE : PREPARE
+CREATED -[#green]-> PENDING : ACTIVATE
+INACTIVE -[#green]-> PENDING : ACTIVATE
+PENDING -[#green]-> RUNNING : START
+RUNNING -[#green,bold]-> COMPLETED : COMPLETE
+
+' === Child Process Flow (blue) ===
+RUNNING -[#blue]-> BLOCKED : SPAWN_CHILD
+BLOCKED -[#blue]-> RUNNING : RESUME
+
+' === Recovery Flow (goldenrod) ===
+COMPLETED -[#goldenrod,dashed]-> PENDING : RESTART
+FAULTED -[#goldenrod,dashed]-> PENDING : RECOVER
+
+' === Error Flow (red) ===
+RUNNING -left[#red,dashed]-> FAULTED : FAIL
+BLOCKED -left[#red,dashed]-> FAULTED : ABORT
+
+' === Cancellation Flow (gray) ===
+CREATED -left[#gray,dotted]-> CANCELLED : CANCEL
+INACTIVE -left[#gray,dotted]-> CANCELLED : CANCEL
+PENDING -left[#gray,dotted]-> CANCELLED : CANCEL
+RUNNING -[#gray,dotted]-> CANCELLED : CANCEL
+BLOCKED -[#gray,dotted]-> CANCELLED : CANCEL
+FAULTED -left[#gray,dotted]-> CANCELLED : CANCEL
+
+/'! $CONFIG : toml
+SmRunnerSettings.transpilerId = "CSharp"
+
+[RenderConfig.CSharp]
+NameSpace = "GameVariable.Intent;"
+Usings = """
+    """
+ClassCode = """
+    """
+BaseList = "IIntent<IntentState.StateId, IntentState.EventId>"
+UseNullable = false
+UsePartialClass = true
+'/
+
+@enduml

@@ -256,9 +256,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: DOD..Learn.FinalSubmisson::DOD.Final.FinalSubmission.UsingMana
   PlayerManadata:
-    CurrentValue: 0
-    MaxMana: 0
-    RegenRate: 0
+    CurrentValue: 1000
+    MaxMana: 10
+    RegenRate: 5
 --- !u!1 &1852493278
 GameObject:
   m_ObjectHideFlags: 0

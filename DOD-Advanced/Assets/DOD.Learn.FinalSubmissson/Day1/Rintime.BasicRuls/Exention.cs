@@ -1,7 +1,9 @@
 using UnityEngine;
+using Variable;
 
 namespace DOD.Final.FinalSubmission
 {
+    
     public static class Exention
     {
         public static bool TryUseMana(ref this ManaData data, float amount)
